@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-database.js"></script>
+    
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyAQtYjCm5KEN4ckGoFQCJ9cY66Mf06-3kM",
+          authDomain: "stocked-661c2.firebaseapp.com",
+          projectId: "stocked-661c2",
+          storageBucket: "stocked-661c2.appspot.com",
+          messagingSenderId: "515909036016",
+          appId: "1:515909036016:web:f6a2f7048c786e53f61f35"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        let key = parseInt(Date.now()*1000)
+
+        // Add
+        firebase.database().ref('registration/'+key).set({
+            name: "Apurba",
+            email: "apurbadaria8@gmail.com"
+        });
+
+        // Read All
+        firebase.database().ref('registration').on('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                let childData = childSnapshot.val();
+                console.log(childData);
+            });
+        });
+
+        // Read
+        firebase.database().ref('registration/'+key).on('value', function(snapshot) {
+            console.log(snapshot);
+            console.log(snapshot.val().email);
+            console.log(snapshot.val().name);
+        });
+
+        // Update
+        firebase.database().ref('registration/'+'1627513744468000').set({
+            name: "Apurbax",
+            email: "apurbadaria8@gmail.com"
+        });
+
+        // Delete
+        firebase.database().ref('registration/'+'1627513981125000').remove();
+
+
+      </script>
+</body>
+</html>

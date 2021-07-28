@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-firestore.js"></script>
+    
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyAQtYjCm5KEN4ckGoFQCJ9cY66Mf06-3kM",
+          authDomain: "stocked-661c2.firebaseapp.com",
+          projectId: "stocked-661c2",
+          storageBucket: "stocked-661c2.appspot.com",
+          messagingSenderId: "515909036016",
+          appId: "1:515909036016:web:f6a2f7048c786e53f61f35"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Initialize Firestore
+        const db = firebase.firestore();
+
+        let key = parseInt(Date.now()*1000)
+        
+
+        // Add
+        usersRef = db.collection("users");
+
+        let add = (name, email) => {
+            const user = { name, email};
+
+            try {
+                const docRef = usersRef.add(user);
+
+            } catch (error) {
+                console.error('Error Adding User: ', error)
+            }
+
+            return user;
+        }
+
+        // add("apurba", "apurbadaria8@gmail.com");
+
+
+        // Get All
+        let getAll = async () => {
+            const users = [];
+
+            try {
+                const snapshot = await usersRef.get()
+                snapshot.forEach(doc => users.push({id: doc.id, ...doc.data()}))
+            } catch (error) {
+                console.error('Error Getting Users: ', error);
+            }
+            console.log(users);
+            return users;
+        }
+
+        // getAll();
+
+
+        // Get by Id
+        let get = async (id) => {
+            let user;
+
+            try {
+                let doc = await usersRef.doc(id).get();
+                
+                if(doc.exists) 
+                    user = {id: doc.id, ...doc.data()};
+                else
+                    console.log('No document found with id: ', id);
+            } 
+            catch (error) {
+                console.error('Error in getting user: ', error);
+            }
+            console.log(user);
+            return user;
+        }
+
+        // get('L99ZRx32vYLg8PeCKMez');
+
+
+        // Delete
+        let deletedata = async (id) => {
+            try {
+                await usersRef.doc(id).delete();
+                console.log('User is deleted with id: ', id);
+            } catch (error) {
+                console.error('Error in deleting user: ', error);
+            }
+        }
+
+        deletedata('1LiaSwdHltnnQwO9kW0f');
+
+
+      </script>
+</body>
+</html>
